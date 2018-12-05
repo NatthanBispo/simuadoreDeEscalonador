@@ -71,7 +71,40 @@ public class Main {
 				}
 				
 				break;
-			case 2: //IMPLEMENTAR
+			case 2:
+				SJF sjf = new SJF(quantum);
+				if(sim == 's' || sim =='S')
+					sjf.listaExemplos();
+				else {
+					String nome = "", tipo = ""; int tempo = 0; char aux = 65; 
+					do {
+					nome = String.valueOf(aux++);
+					System.out.print("Tempo: ");
+						tempo = sc.nextInt();
+					System.out.print("Tipo: CPU = c || IO = i: ");
+						tipo = sc.next();
+						
+						if(tipo.equalsIgnoreCase("c")) tipo = "CPU";
+						else if(tipo.equalsIgnoreCase("i")) tipo = "IO";
+						else System.out.print("Dado incorreto");
+						
+					if(tipo.equals("CPU") || tipo.equals("IO"))
+						sjf.adicionar(nome, tempo, tipo);
+					
+					System.out.print("Deseja adiciona mais?[s/n]");
+					continuar = sc.next().charAt(0);
+					}while(continuar != 'n');
+				}
+					sjf.imprime();
+					System.out.print("\n\n\nExecutar? [s/n]");
+					continuar = sc.next().charAt(0);
+					if(continuar != 'n' && continuar != 'N') {
+						do {
+							sjf.executar();
+							System.out.print("Executar? [s/n]");
+							continuar = sc.next().charAt(0);
+						}while(continuar != 'n' && continuar != 'N');
+					}
 				break;
 			case 3: //IMPLEMENTAR
 				break;
