@@ -28,9 +28,8 @@ public class FCFS {
     	char c = 65;
     	for(int i=0; i<10; ++i) {
     			a = String.valueOf(c++);
-    			int n = rd.nextInt(20)+5;
-    		if(i%4!=0) adicionar(a, n, "CPU");
-    		else adicionar(a, n, "IO");
+    		if(i%4!=0) adicionar(a, rd.nextInt(20)+5, "CPU");
+    		else adicionar(a, rd.nextInt(20)+5, "IO");
     	}
     }
     
