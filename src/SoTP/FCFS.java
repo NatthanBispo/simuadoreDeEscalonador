@@ -10,6 +10,10 @@ import java.util.Random;
 
 public class FCFS {
     private int unidadeTempo=0;
+    private char nome;
+    private int tempoMedio=0;
+    private int tamanhoLista=0;
+    private boolean first = true;
     
     private LinkedList<Processo> listaExecucao;
     private LinkedList<Integer> tempoDeEspera;
@@ -17,60 +21,60 @@ public class FCFS {
     Random rd = new Random();
     
     public FCFS() {
-    	this.listaExecucao = new LinkedList<Processo>();
-    	this.tempoDeEspera = new LinkedList<Integer>();
+    	this.listaExecucao = new LinkedList<>();
+    	this.tempoDeEspera = new LinkedList<>();
     	this.tempoDeEspera.add(0);
+        this.nome = 65;
     }
     
     public void listaExemplos() {
-    	this.listaExecucao = new LinkedList<Processo>();
-    	String a ="";
-    	char c = 65;
     	for(int i=0; i<10; ++i) {
-    			a = String.valueOf(c++);
-    		if(i%4!=0) adicionar(a, rd.nextInt(20)+5, "CPU");
-    		else adicionar(a, rd.nextInt(20)+5, "IO");
+            if(i%4!=0) adicionar(rd.nextInt(20)+5, "CPU");
+            else adicionar(rd.nextInt(20)+5, "IO");
     	}
     }
     
-    public void adicionar(String nome, int tempo, String tipo) {
-    	listaExecucao.add(new Processo(nome, tempo, tipo));
+    public void adicionar(int tempo, String tipo) {
+    	listaExecucao.add(new Processo(String.valueOf(nome++), tempo, tipo));
     	if(tempoDeEspera.size()>0)
     		tempoDeEspera.addLast(tempoDeEspera.get(tempoDeEspera.size()-1) + listaExecucao.get(listaExecucao.size()-1).getTempo());
     }
     
-    public void imprime() {
-    	System.out.println("DESCRICAO");
-    	System.out.println("Tempo de execucao: "+unidadeTempo);;
-    	
-    	System.out.println("\nFILA DE PROCESSOS");
-    	//System.out.println("NOME | TEMPO | TIPO | TEMPO DE ESPERA");
-    	for(int i=0; i<listaExecucao.size(); i++) {
-    		System.out.println("NOME: "+listaExecucao.get(i).getNome()
-    				+" | "+"TEMPO: "+listaExecucao.get(i).getTempo()
-    				+" | "+"TIPO: "+listaExecucao.get(i).getTipo()
-    				+" | "+"TEMPO DE ESPERA: "+tempoDeEspera.get(i));
-    	}
-    	
+    public void remover(){
+        listaExecucao.removeLast();
     }
     
-    public void executar() {
-    	if(listaExecucao.size()>0) {
+    public LinkedList<Processo> retornaLista(){
+        return this.listaExecucao;
+    }
+    
+    public LinkedList<Integer> retornaListaTempo(){
+        return this.tempoDeEspera;
+    }
+    public Processo executar() {
+        if(first){
+           tamanhoLista = listaExecucao.size();
+           first = false; 
+        }
+    	Processo removido = null;
+        if(listaExecucao.size()>0) {
     		unidadeTempo += listaExecucao.get(0).getTempo();
     		int tempo = listaExecucao.get(0).getTempo();
-    		listaExecucao.remove(0);
+    		removido = listaExecucao.remove(0);
     		tempoDeEspera.remove(0);
     		
+                tempoMedio += unidadeTempo;
+                
     		LinkedList<Integer> aux = new LinkedList<>();
     		for(Integer t: tempoDeEspera)
     			aux.addLast(t-tempo);
     		tempoDeEspera = aux;
-    	}else{
-    		imprime();
-    		System.out.println("\nFim da simulacao");
-    		System.exit(0);
     	}
-    	imprime();
+        return removido;
+    }
+
+    public int getTempoMedio() {
+        return tempoMedio / tamanhoLista;
     }
     
     public int getUnidadeTempo() {

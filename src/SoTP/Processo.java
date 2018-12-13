@@ -5,17 +5,39 @@ public class Processo {
     private int tempo;
     private String tipo;
     private int prioridade;
+    private int espera;
+
+    public int getEspera() {
+        return espera;
+    }
+
+    public void setEspera(int espera) {
+        this.espera = espera;
+    }
+
+    public Processo() {
+    }
 
     public Processo(String nome, int tempo, String tipo) {
         this.nome = nome;
         this.tempo = tempo;
         this.tipo = tipo;
     }
+    
     public Processo(String nome, int tempo, String tipo, int prioridade) {
         this.nome = nome;
         this.tempo = tempo;
         this.tipo = tipo;
         this.prioridade = prioridade;
+    }
+    
+    public Processo(String nome, int tempo, String tipo, int prioridade, int espera) {
+        this.nome = nome;
+        this.tempo = tempo;
+        this.tipo = tipo;
+        this.prioridade = prioridade;
+        this.espera = espera;
+
     }
 
     public String getNome() {
